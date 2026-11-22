@@ -1,0 +1,23 @@
+[0;1;32m●[0m docker.service - Docker Application Container Engine
+     Loaded: loaded (]8;;file://ip-172-31-6-113/usr/lib/systemd/system/docker.service\/usr/lib/systemd/system/docker.service]8;;\; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Sun 2026-11-22 10:02:59 UTC; 1min 34s ago
+ Invocation: bf9085259d214cc19453aab765430940
+TriggeredBy: [0;1;32m●[0m docker.socket
+       Docs: ]8;;https://docs.docker.com\https://docs.docker.com]8;;\
+   Main PID: 5121 (dockerd)
+      Tasks: 10
+     Memory: 26.7M (peak: 27.4M)
+        CPU: 320ms
+     CGroup: /system.slice/docker.service
+             └─[0;38:5:245m5121 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock[0m
+
+Nov 22 10:02:58 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:58.914450602Z" level=info msg="Restoring containers: start."
+Nov 22 10:02:58 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:58.955742063Z" level=info msg="Deleting nftables IPv4 rules" error="exit status 1"
+Nov 22 10:02:58 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:58.962036821Z" level=info msg="Deleting nftables IPv6 rules" error="exit status 1"
+Nov 22 10:02:59 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:59.261462347Z" level=info msg="Loading containers: done."
+Nov 22 10:02:59 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:59.268535617Z" level=info msg="Docker daemon" commit=29.1.3-0ubuntu4.1 containerd-snapshotter=true storage-driver=overlayfs version=29.1.3
+Nov 22 10:02:59 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:59.268691523Z" level=info msg="Initializing buildkit"
+Nov 22 10:02:59 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:59.308993977Z" level=info msg="Completed buildkit initialization"
+Nov 22 10:02:59 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:59.314760818Z" level=info msg="Daemon has completed initialization"
+Nov 22 10:02:59 ip-172-31-6-113 dockerd[5121]: time="2026-11-22T10:02:59.314816197Z" level=info msg="API listen on /run/docker.sock"
+Nov 22 10:02:59 ip-172-31-6-113 systemd[1]: Started docker.service - Docker Application Container Engine.

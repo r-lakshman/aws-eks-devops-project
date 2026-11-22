@@ -1,0 +1,15 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan
+crash.log
+target/
+*.jar
+*.war
+*.log
+*.pem
+*.key
+.env
+*.zip
+*.tar.gz
+.DS_Store
