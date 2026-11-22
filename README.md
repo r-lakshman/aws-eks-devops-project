@@ -90,6 +90,8 @@ The project covers the complete cloud-native lifecycle:
 ```text
 aws-eks-project/
 │
+├── README.md
+|
 ├── application/
 │   └── ecommerce-app/
 │       ├── Dockerfile
@@ -213,3 +215,8 @@ git push origin main
 Thank you for exploring the **AWS EKS E-Commerce DevOps Project**! I hope these step-by-step modules, Terraform configurations, Kubernetes manifests, Helm charts, and CI/CD pipelines serve as a helpful reference for building and operating production-ready workloads on Amazon EKS.
 
 If you found this repository useful, feel free to star ⭐ the project, open an issue for questions or improvements, or fork it to customize for your own cloud-native architectures. Happy building!
+
+## 👨‍💻 Author
+
+* **Name:** R Lakshman Kumar
+* **GitHub:** [@r-lakshman](https://github.com/r-lakshman)
