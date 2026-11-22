@@ -17,56 +17,56 @@ The project covers the complete cloud-native lifecycle:
 ## 🏗️ Architecture & Workflow
 
 ```text
-+---------------------------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------+
 |                        UBUNTU EC2 WORKSTATION (ubuntu-eks-devops-host, ap-south-1)                  |
-|                         IAM Role: ubuntu-eks-devops-role (No static keys)                          |
-|                                                                                                   |
-|  aws-eks-project/                                                                                 |
-|  ├── docs/                  --> prerequisites + module-01..12.md                                  |
-|  ├── terraform/envs/dev/    --> providers.tf, terraform.tf, variables.tf, vpc.tf, eks.tf,         |
-|  │                              outputs.tf, tfplan                                                |
-|  ├── application/           --> Spring Boot (pom.xml, src/main, target/*.jar, Dockerfile)        |
-|  │   └── ecommerce-app                                                                            |
-|  ├── kubernetes/            --> rbac.yaml, network-policy.yaml, pdb.yaml                          |
-|  ├── helm/ecommerce/        --> Chart.yaml, values.yaml, templates/{deployment,service,ingress,hpa}|
-|  └── jenkins/               --> Jenkinsfile / CI-CD pipeline assets                               |
-+------------------------------------+----------------------------------+---------------------------+
+|                         IAM Role: ubuntu-eks-devops-role (No static keys)                           |
+|                                                                                                     |
+|  aws-eks-project/                                                                                   |
+|  ├── docs/                  --> prerequisites + module-01..12.md                                    |
+|  ├── terraform/envs/dev/    --> providers.tf, terraform.tf, variables.tf, vpc.tf, eks.tf,           |
+|  │                              outputs.tf, tfplan                                                  |
+|  ├── application/           --> Spring Boot (pom.xml, src/main, target/*.jar, Dockerfile)           |
+|  │   └── ecommerce-app                                                                              |
+|  ├── kubernetes/            --> rbac.yaml, network-policy.yaml, pdb.yaml                            |
+|  ├── helm/ecommerce/        --> Chart.yaml, values.yaml, templates/{deployment,service,ingress,hpa} |
+|  └── jenkins/               --> Jenkinsfile / CI-CD pipeline assets                                 |
++------------------------------------+----------------------------------+-----------------------------+
                                      |                                  |
              (1) Terraform State     |          (2) Build & Push        |          (3) CI/CD
                  & Infra             |              Container           |              Pipeline
                                      v                                  v
-+------------------------------------+----------------------------------+---------------------------+
-|                                     AWS CLOUD (ap-south-1 - Mumbai)                               |
-|                                                                                                   |
-|  +------------------------------+   +-------------------------------+   +----------------------+  |
-|  | S3 Remote State Bucket       |   | Amazon ECR                    |   | AWS Secrets Manager  |  |
-|  | eks-terraform-state-...      |   | ecommerce-app                 |   | production/          |  |
-|  +--------------+---------------+   +---------------+---------------+   | db-password          |  |
-|                 |                                   |                   +----------+-----------+  |
-|                 v                                   |                              |              |
-|  +----------------------------------------------+   |                              |              |
-|  | VPC (ecommerce-eks-vpc)                      |   |                              |              |
-|  |  Public + Private Subnets, IGW (No NAT GW)   |   |                              |              |
-|  |  +----------------------------------------+  |   |                              |              |
-|  |  | EKS Cluster: ecommerce-eks (v1.36)     |  |   |                              |              |
-|  |  |  OIDC / IRSA & AWS LB Controller       |<--+---+ (Pull Image)                 |              |
-|  |  |                                        |      |                              |              |
-|  |  |  Node Group: application-nodes         |      |                              |              |
-|  |  |   (t3.small)                           |      |                              |              |
-|  |  |   - Helm: deployment, service,         |      |                              |              |
-|  |  |     ingress (ALB), hpa                 |      |                              |              |
-|  |  |   - K8s: rbac, network-policy, pdb     |      |                              |              |
-|  |  |   - Monitoring: Prometheus/Grafana &   |      |                              |              |
-|  |  |     CloudWatch Agent (IRSA)          |      |                              |              |
-|  |  +----------------------------------------+  |      |                              |              |
-|  +----------------------------------------------+      |                              |              |
-+--------------------------------------------------------+------------------------------+--------------+
-                                                         |                              |
-                                                         v                              v
-                                             +-----------------------+      +--------------------+
-                                             | GitHub Repository     |      | CloudWatch & Logs  |
-                                             | 12 Modules + Code     |      | Container Insights |
-                                             +-----------------------+      +--------------------+
++------------------------------------+----------------------------------+-----------------------------+
+|                                     AWS CLOUD (ap-south-1 - Mumbai)                                 |
+|                                                                                                     |
+|  +------------------------------+   +-------------------------------+   +----------------------+    |
+|  | S3 Remote State Bucket       |   | Amazon ECR                    |   | AWS Secrets Manager  |    |
+|  | eks-terraform-state-...      |   | ecommerce-app                 |   | production/          |    | 
+|  +--------------+---------------+   +---------------+---------------+   | db-password          |    |
+|                 |                                   |                   +----------+-----------+    |
+|                 v                                   |                              |                |
+|  +----------------------------------------------+   |                              |                |
+|  | VPC (ecommerce-eks-vpc)                      |   |                              |                |
+|  |  Public + Private Subnets, IGW (No NAT GW)   |   |                              |                |
+|  |  +----------------------------------------+  |   |                              |                |
+|  |  | EKS Cluster: ecommerce-eks (v1.36)     |  |   |                              |                |
+|  |  |  OIDC / IRSA & AWS LB Controller       |<--+---+ (Pull Image)                |                |
+|  |  |                                        |      |                              |                |
+|  |  |  Node Group: application-nodes         |      |                              |                |
+|  |  |   (t3.small)                           |      |                              |                |
+|  |  |   - Helm: deployment, service,         |      |                              |                |
+|  |  |     ingress (ALB), hpa                 |      |                              |                | 
+|  |  |   - K8s: rbac, network-policy, pdb     |      |                              |                |
+|  |  |   - Monitoring: Prometheus/Grafana &   |      |                              |                | 
+|  |  |     CloudWatch Agent (IRSA)            |      |                              |                | 
+|  |  +----------------------------------------+    |   |                            |                |
+|  +----------------------------------------------+      |                           |                |
++--------------------------------------------------------+---------------------------+----------------+
+                                                         |                           |
+                                                         v                           v
+                                             +-----------------------+    +--------------------+
+                                             | GitHub Repository     |    | CloudWatch & Logs  |
+                                             | 12 Modules + Code     |    | Container Insights |
+                                             +-----------------------+    +--------------------+
 ```
 
 ## 🛠️ Technologies Used
